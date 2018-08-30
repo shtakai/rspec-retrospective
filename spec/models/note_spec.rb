@@ -1,64 +1,71 @@
 require 'rails_helper'
 
 RSpec.describe Note, type: :model do
-  it 'returns notes that match the search term' do
-    user = User.create(
-      first_name: 'Joe',
-      last_name: 'Tester',
-      email: 'tester@example.com',
-      password: 'joepassword',
-    )
 
-    project = user.projects.create(
-      name: 'Test project',
-    )
+  describe "search message for a term" do
+    context 'when a match is found' do
+      it 'returns notes that match the search term' do
+        user = User.create(
+          first_name: 'Joe',
+          last_name: 'Tester',
+          email: 'tester@example.com',
+          password: 'joepassword',
+        )
 
-    note1 = project.notes.create(
-      message: 'This is the first note.',
-      user: user,
-    )
+        project = user.projects.create(
+          name: 'Test project',
+        )
 
-    note2 = project.notes.create(
-      message: 'This is the second note.',
-      user: user,
-    )
+        note1 = project.notes.create(
+          message: 'This is the first note.',
+          user: user,
+        )
 
-    note3 = project.notes.create(
-      message: 'First, preheat the oven.',
-      user: user,
-    )
+        note2 = project.notes.create(
+          message: 'This is the second note.',
+          user: user,
+        )
 
-    expect(Note.search("first")).to include(note1, note3)
-    expect(Note.search("first")).to_not include(note2)
-  end
+        note3 = project.notes.create(
+          message: 'First, preheat the oven.',
+          user: user,
+        )
 
-  it 'returns an empty collection when no results are found' do
-    user = User.create(
-      first_name: 'Joe',
-      last_name: 'Tester',
-      email: 'tester@example.com',
-      password: 'joepassword',
-    )
+        expect(Note.search("first")).to include(note1, note3)
+        expect(Note.search("first")).to_not include(note2)
+      end
+    end
 
-    project = user.projects.create(
-      name: 'Test project',
-    )
+    context 'when no match is found' do
+      it 'returns an empty collection when no results are found' do
+        user = User.create(
+          first_name: 'Joe',
+          last_name: 'Tester',
+          email: 'tester@example.com',
+          password: 'joepassword',
+        )
 
-    note1 = project.notes.create(
-      message: 'This is the first note.',
-      user: user,
-    )
+        project = user.projects.create(
+          name: 'Test project',
+        )
 
-    note2 = project.notes.create(
-      message: 'This is the second note.',
-      user: user,
-    )
+        note1 = project.notes.create(
+          message: 'This is the first note.',
+          user: user,
+        )
 
-    note3 = project.notes.create(
-      message: 'First, preheat the oven.',
-      user: user,
-    )
+        note2 = project.notes.create(
+          message: 'This is the second note.',
+          user: user,
+        )
 
-    expect(Note.search("message")).to be_empty
+        note3 = project.notes.create(
+          message: 'First, preheat the oven.',
+          user: user,
+        )
+
+        expect(Note.search("message")).to be_empty
+      end
+    end
   end
 end
