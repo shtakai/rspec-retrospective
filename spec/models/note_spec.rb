@@ -14,6 +14,10 @@ RSpec.describe Note, type: :model do
     )
   end
 
+  xit 'generates associated data from a factory' do
+    note = FactoryBot.create(:note)
+  end
+
   describe "search message for a term" do
     context 'when a match is found' do
       it 'returns notes that match the search term' do
