@@ -65,7 +65,9 @@ RSpec.describe Project, type: :model do
   end
 
   it 'can hame many notes' do
-    project = FactoryBot.create(:project)
+    project = FactoryBot.create(:project, :with_notes)
+    # puts project.inspect
+    # puts project.notes.map(&:inspect)
     expect(project.notes.size).to eq 5
   end
 end
