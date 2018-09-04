@@ -1,18 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+
+  it 'has a valid factory' do
+    expect(FactoryBot.build(:user)).to be_valid
+  end
+
   it 'is valid with a first name, last name, email and password' do
-    user = User.new(
-      first_name: 'Aaron',
-      last_name: 'Sumner',
-      email: 'tester@example.com',
-      password: 'testtesttesttest',
-    )
+    user = FactoryBot.build(:user)
     expect(user).to be_valid
   end
 
   it 'is invalid without a first name' do
-    user = User.new(
+    user = FactoryBot.build(
+      :user,
       first_name: nil,
     )
     user.valid?
@@ -20,28 +21,32 @@ RSpec.describe User, type: :model do
   end
 
   it 'is invalid without a last name' do
-    user = User.new(
+    user = FactoryBot.build(
+      :user,
       last_name: nil,
     )
     user.valid?
     expect(user.errors[:last_name]).to include("can't be blank")
   end
 
-  it 'is invalid without an email'
+  it 'is invalid without an email' do
+    user = FactoryBot.build(
+      :user,
+      email: nil,
+    )
+    user.valid?
+    expect(user.errors[:email]).to include("can't be blank")
+  end
 
   it 'is invalid with a dupulicate email address' do
-    User.create(
-      first_name: 'Joe',
-      last_name: 'Tester',
+    FactoryBot.create(
+      :user,
       email: 'tester@example.com',
-      password: 'joepassword',
     )
 
-    user = User.new(
-      first_name: 'Joie',
-      last_name: 'Tester',
+    user = FactoryBot.build(
+      :user,
       email: 'tester@example.com',
-      password: 'joiepassword',
     )
 
     user.valid?
@@ -49,11 +54,10 @@ RSpec.describe User, type: :model do
   end
 
   it 'returns a users full name as a string' do
-    user = User.new(
+    user = FactoryBot.build(
+      :user,
       first_name: 'Joe',
       last_name: 'Tester',
-      email: 'tester@example.com',
-      password: 'joepassword',
     )
 
     expect(user.name).to eq "Joe Tester"
