@@ -63,4 +63,9 @@ RSpec.describe Project, type: :model do
       expect(project).to_not be_late
     end
   end
+
+  it 'can hame many notes' do
+    project = FactoryBot.create(:project)
+    expect(project.notes.size).to eq 5
+  end
 end
