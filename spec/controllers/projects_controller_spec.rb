@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
   describe '#index' do
-
     context 'as an authenticated user' do
       before do
         @user = FactoryBot.create(:user)
@@ -152,7 +151,6 @@ RSpec.describe ProjectsController, type: :controller do
     end
   end
 
-
   describe '#destroy' do
     context 'as an authenticated user' do
       before do
@@ -187,8 +185,6 @@ RSpec.describe ProjectsController, type: :controller do
         delete :destroy, params: { id: @project.id }
         expect(response).to redirect_to root_path
       end
-
-
     end
 
     context 'as a guest' do
@@ -213,4 +209,39 @@ RSpec.describe ProjectsController, type: :controller do
       end
     end
   end
+
+  describe '#create' do
+    context 'as an authenticated user' do
+      before do
+        @user = FactoryBot.create(:user)
+      end
+
+      context 'with valid attributes' do
+         it 'adds a project' do
+           project_params = FactoryBot.attributes_for(:project)
+           sign_in @user
+           expect {
+             post :create, params: { project: project_params }
+           }.to change(@user.projects, :count).by(1)
+         end
+      end
+
+      context 'with invalid attributes' do
+         it 'adds a project' do
+           project_params = FactoryBot.attributes_for(:project, :invalid)
+           sign_in @user
+           expect {
+             post :create, params: { project: project_params }
+           }.to_not change(@user.projects, :count)
+         end
+      end
+    end
+
+    context 'as an unauthenticated user' do
+    end
+
+    context 'as a guest' do
+    end
+  end
+
 end
