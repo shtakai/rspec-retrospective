@@ -93,4 +93,35 @@ RSpec.describe ProjectsController, type: :controller do
     end
   end
 
+  describe '#update' do
+    context 'as an authenticated user' do
+      before do
+        @user = FactoryBot.create(:user)
+        @project = FactoryBot.create(:project, owner: @user)
+      end
+
+      it 'updates a project' do
+        project_params = FactoryBot.attributes_for(
+          :project,
+          name: 'New Project Name',
+        )
+        sign_in @user
+        patch :update, params: { id: @project.id, project: project_params }
+        expect(@project.reload.name).to eq 'New Project Name'
+      end
+    end
+
+    context 'as an unauthenticated user' do
+      before do
+        @user = FactoryBot.create(:user)
+        other_user = FactoryBot.create(:user)
+        @project = FactoryBot.create(:project, owner: other_user)
+      end
+    end
+
+    context 'as a guest' do
+    end
+  end
+
+
 end
