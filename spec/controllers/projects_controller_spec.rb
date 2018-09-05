@@ -115,7 +115,21 @@ RSpec.describe ProjectsController, type: :controller do
       before do
         @user = FactoryBot.create(:user)
         other_user = FactoryBot.create(:user)
-        @project = FactoryBot.create(:project, owner: other_user)
+        @project = FactoryBot.create(
+          :project,
+          owner: other_user,
+          name: 'Same Old Name',
+        )
+      end
+
+      it 'does not update the project' do
+        project_params = FactoryBot.attributes_for(
+          :project,
+          name: 'New Project Name',
+        )
+        sign_in @user
+        patch :update, params: { id: @project.id, project: project_params }
+        expect(response).to redirect_to root_path
       end
     end
 
