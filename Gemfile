@@ -18,12 +18,13 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_bot_rails', '~> 4.11.0'
   gem 'rspec-rails', '~> 3.8.0'
-  gem 'selenium-webdriver'
 end
 
 group :test do
   gem 'capybara', '~> 2.15.2'
   gem 'launchy', '~> 2.4.3'
+  gem 'selenium-webdriver'
+  gem 'chromedriver-helper'
 end
 
 group :development do
