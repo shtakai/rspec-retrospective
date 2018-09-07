@@ -10,25 +10,20 @@ RSpec.describe ProjectsController, type: :controller do
       it 'responds successfully' do
         sign_in @user
         get :index
-        expect(response).to be_success
-      end
-
-      it 'returns a 200 response' do
-        sign_in @user
-        get :index
-        expect(response).to have_http_status '200'
+        aggregate_failures do
+          expect(response).to be_success
+          expect(response).to have_http_status '200'
+        end
       end
     end
 
     context 'as a guest' do
       it 'returns a 302 response' do
         get :index
-        expect(response).to have_http_status '302'
-      end
-
-      it 'redirects to sign-in page' do
-        get :index
-        expect(response).to redirect_to '/users/sign_in'
+        aggregate_failures do
+          expect(response).to have_http_status '302'
+          expect(response).to redirect_to '/users/sign_in'
+        end
       end
     end
   end
@@ -81,13 +76,10 @@ RSpec.describe ProjectsController, type: :controller do
       it 'returns a 302 response' do
         project_params = FactoryBot.attributes_for(:project)
         post :create, params: { project: project_params }
-        expect(response).to have_http_status '302'
-      end
-
-      it 'redirects to the sign-in page' do
-        project_params = FactoryBot.attributes_for(:project)
-        post :create, params: { project: project_params }
-        expect(response).to redirect_to '/users/sign_in'
+        aggregate_failures do
+          expect(response).to have_http_status '302'
+          expect(response).to redirect_to '/users/sign_in'
+        end
       end
     end
   end
@@ -140,13 +132,10 @@ RSpec.describe ProjectsController, type: :controller do
       it 'returns a 302 response' do
         project_params = FactoryBot.attributes_for(:project)
         patch :update, params: { id: @project.id, project: project_params }
-        expect(response).to have_http_status '302'
-      end
-
-      it 'redirects to the sign-in page' do
-        project_params = FactoryBot.attributes_for(:project)
-        patch :update, params: { id: @project.id, project: project_params }
-        expect(response).to redirect_to '/users/sign_in'
+        aggregate_failures do
+          expect(response).to have_http_status '302'
+          expect(response).to redirect_to '/users/sign_in'
+        end
       end
     end
   end
@@ -175,15 +164,12 @@ RSpec.describe ProjectsController, type: :controller do
 
       it 'does not delete the project' do
         sign_in @user
-        expect {
-          delete :destroy, params: { id: @project.id }
-        }.to_not change(Project, :count)
-      end
-
-      it 'redirects to the dashboard' do
-        sign_in @user
-        delete :destroy, params: { id: @project.id }
-        expect(response).to redirect_to root_path
+        aggregate_failures do
+          expect {
+            delete :destroy, params: { id: @project.id }
+          }.to_not change(Project, :count)
+          expect(response).to redirect_to root_path
+        end
       end
     end
 
@@ -194,18 +180,13 @@ RSpec.describe ProjectsController, type: :controller do
 
       it 'returns a 302 response' do
         delete :destroy, params: { id: @project.id }
-        expect(response).to have_http_status '302'
-      end
-
-      it 'redirects to the sign-in page' do
-        delete :destroy, params: { id: @project.id }
-        expect(response).to redirect_to '/users/sign_in'
-      end
-
-      it 'does not delete the project' do
-        expect {
-          delete :destroy, params: { id: @project.id }
-        }.to_not change(Project, :count)
+        aggregate_failures do
+          expect {
+            delete :destroy, params: { id: @project.id }
+          }.to_not change(Project, :count)
+          expect(response).to have_http_status '302'
+          expect(response).to redirect_to '/users/sign_in'
+        end
       end
     end
   end
