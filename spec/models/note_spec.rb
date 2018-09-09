@@ -5,11 +5,11 @@ RSpec.describe Note, type: :model do
   let(:project) { FactoryBot.create(:project) }
 
   it "delegates name to the user who created it" do
-    user = FactoryBot.create(:user, first_name: 'Fake', last_name: 'User')
-    note = Note.new(user: user)
+    user = double('user', name: 'Fake User')
+    note = Note.new
+    allow(note).to receive(:user).and_return(user)
     expect(note.user_name).to eq 'Fake User'
   end
-
 
   it 'is valid with a user, project, and message' do
     note = Note.new(
