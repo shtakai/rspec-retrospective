@@ -17,6 +17,5 @@ RSpec.feature 'Sign in', type: :feature do
     expect do
       GeocodeUserJob.perform_later(user)
     end.to have_enqueued_job.with(user)
-
   end
 end
