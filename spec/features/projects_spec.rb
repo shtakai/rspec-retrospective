@@ -26,6 +26,9 @@ RSpec.feature "Projects", type: :feature do
     login_as user, scope: :user
 
     visit project_path(project)
+
+    expect(page).to_not have_content 'Completed'
+
     click_button 'Complete'
 
     expect(project.reload.completed?).to be true
