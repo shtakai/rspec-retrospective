@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Notes', type: :feature do
+RSpec.describe 'Notes', type: :system do
   let(:user) { FactoryBot.create(:user) }
   let(:project) {
     FactoryBot.create(:project,
@@ -9,7 +9,7 @@ RSpec.feature 'Notes', type: :feature do
     )
   }
 
-  scenario 'user uploads an attachment' do
+  it 'user uploads an attachment' do
     sign_in user
     visit project_path(project)
     click_link 'Add Note'
