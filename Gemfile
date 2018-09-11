@@ -16,8 +16,20 @@ gem 'jbuilder', '~> 2.5'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'capybara', '~> 2.13.0'
+  gem 'factory_bot_rails', '~> 4.11.0'
+  gem 'rspec-rails', '~> 3.8.0'
+  gem 'vcr'
+  gem 'webmock'
+end
+
+group :test do
+  gem 'capybara', '~> 2.15.4'
   gem 'selenium-webdriver'
+  gem 'chromedriver-helper'
+  gem 'launchy', '~> 2.4.3'
+  gem 'shoulda-matchers',
+    git: 'https://github.com/thoughtbot/shoulda-matchers.git',
+    branch: 'rails-5'
 end
 
 group :development do
@@ -25,6 +37,7 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'spring-commands-rspec'
   gem 'faker', require: false # for sample data in development
 end
 
