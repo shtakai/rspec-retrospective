@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature "Projects", type: :feature do
-  scenario 'user creates a new project' do
+RSpec.describe "Projects", type: :system do
+  it 'user creates a new project' do
     user = FactoryBot.create(:user)
     sign_in user
 
@@ -19,7 +19,7 @@ RSpec.feature "Projects", type: :feature do
     }.to change(user.projects, :count).by(1)
   end
 
-  scenario 'user complates a project' do
+  it 'user complates a project' do
     user = FactoryBot.create(:user)
     project = FactoryBot.create(:project, owner: user)
 

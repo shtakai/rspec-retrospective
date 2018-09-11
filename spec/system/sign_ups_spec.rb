@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.feature 'Sign Up', type: :feature do
+RSpec.describe 'Sign Up', type: :system do
   include ActiveJob::TestHelper
 
-  scenario 'user successfully signs up' do
+  it 'user successfully signs up' do
     visit root_path
     click_link 'Sign up'
 
